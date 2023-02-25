@@ -5,6 +5,7 @@ import { useThrottledCallback } from "use-debounce";
 const Board = () => {
   const [size, setSize] = useState(4);
   const [grid, setGrid] = useState([]);
+  const [score, setScore] = useState(0);
 
   const empty = (curr, key, i, j) => {
     for (let item of curr) {
@@ -35,6 +36,7 @@ const Board = () => {
   }, [size]);
 
   const moveLeft = () => {
+    let currScore = 0;
     let newGrid = [];
     for (let s = 0; s < size; s++) {
       let temp = [];
@@ -45,6 +47,7 @@ const Board = () => {
         if (i + 1 < temp.length && temp[i].val === temp[i + 1].val) {
           newGrid.push({ key: temp[i].key, i: temp[i].i, j: idx, val: temp[i].val + temp[i + 1].val });
           newGrid.push({ key: temp[i + 1].key, i: temp[i + 1].i, j: idx, val: 0 });
+          currScore = currScore + temp[i].val + temp[i + 1].val;
           i++;
         } else {
           newGrid.push({ key: temp[i].key, i: temp[i].i, j: idx, val: temp[i].val });
@@ -53,9 +56,11 @@ const Board = () => {
       }
     }
     setGrid(generate([...newGrid]))
+    setScore(score + currScore)
   };
 
   const moveRight = () => {
+    let currScore = 0;
     let newGrid = [];
     for (let s = 0; s < size; s++) {
       let temp = [];
@@ -66,6 +71,7 @@ const Board = () => {
         if (i + 1 < temp.length && temp[i].val === temp[i + 1].val) {
           newGrid.push({ key: temp[i].key, i: temp[i].i, j: idx, val: temp[i].val + temp[i + 1].val });
           newGrid.push({ key: temp[i + 1].key, i: temp[i + 1].i, j: idx, val: 0 });
+          currScore = currScore + temp[i].val + temp[i + 1].val
           i++;
         } else {
           newGrid.push({ key: temp[i].key, i: temp[i].i, j: idx, val: temp[i].val });
@@ -74,9 +80,11 @@ const Board = () => {
       }
     }
     setGrid(generate([...newGrid]))
+    setScore(score + currScore)
   };
 
   const moveUp = () => {
+    let currScore = 0;
     let newGrid = [];
     for (let s = 0; s < size; s++) {
       let temp = [];
@@ -87,6 +95,7 @@ const Board = () => {
         if (i + 1 < temp.length && temp[i].val === temp[i + 1].val) {
           newGrid.push({ key: temp[i].key, i: idx, j: temp[i].j, val: temp[i].val + temp[i + 1].val });
           newGrid.push({ key: temp[i + 1].key, i: idx, j: temp[i + 1].j, val: 0 });
+          currScore = currScore + temp[i].val + temp[i + 1].val;
           i++;
         } else {
           newGrid.push({ key: temp[i].key, i: idx, j: temp[i].j, val: temp[i].val });
@@ -95,9 +104,11 @@ const Board = () => {
       }
     }
     setGrid(generate([...newGrid]))
+    setScore(score + currScore)
   };
 
   const moveDown = () => {
+    let currScore = 0;
     let newGrid = [];
     for (let s = 0; s < size; s++) {
       let temp = [];
@@ -108,6 +119,7 @@ const Board = () => {
         if (i + 1 < temp.length && temp[i].val === temp[i + 1].val) {
           newGrid.push({ key: temp[i].key, i: idx, j: temp[i].j, val: temp[i].val + temp[i + 1].val });
           newGrid.push({ key: temp[i + 1].key, i: idx, j: temp[i + 1].j, val: 0 });
+          currScore = currScore + temp[i].val + temp[i + 1].val;
           i++;
         } else {
           newGrid.push({ key: temp[i].key, i: idx, j: temp[i].j, val: temp[i].val });
@@ -116,10 +128,12 @@ const Board = () => {
       }
     }
     setGrid(generate([...newGrid]))
+    setScore(score + currScore)
   };
 
   useEffect(() => {
     setGrid(generate([]));
+    setScore(0);
   }, [size, generate]);
 
 
@@ -160,6 +174,7 @@ const Board = () => {
 
   return (
     <>
+      <button type="button" style={{ width: `500px` }} class="btn btn-outline-warning">Score:- {score}</button>
       <div className="board" style={style}>
         {
           (new Array(size * size).fill(0)).map((val, idx) => <div key={idx} className="board-box-backdrop"></div>)
@@ -170,7 +185,7 @@ const Board = () => {
           ))
         }
       </div>
-      <div class="btn-group" style={{ width: `500px` }} role="group" aria-label="Basic example">
+      <div class="btn-group" style={{ width: `500px` }} role="group">
         <button type="button" class={`btn ${size === 3 ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setSize(3)} >3x3</button>
         <button type="button" class={`btn ${size === 4 ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setSize(4)} >4x4</button>
         <button type="button" class={`btn ${size === 5 ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setSize(5)} >5x5</button>
