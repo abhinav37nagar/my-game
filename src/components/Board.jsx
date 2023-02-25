@@ -162,7 +162,7 @@ const Board = () => {
     <>
       <div className="board" style={style}>
         {
-          (new Array(size * size).fill(0)).map((val, idx) => <div key={idx} className="square-backdrop"></div>)
+          (new Array(size * size).fill(0)).map((val, idx) => <div key={idx} className="board-box-backdrop"></div>)
         }
         {
           grid.map((item) => (
