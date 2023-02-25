@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Square from './Square';
 import { useThrottledCallback } from "use-debounce";
 
@@ -19,7 +19,7 @@ const Board = () => {
     gridTemplateColumns: `repeat(${size}, minmax(50px, 1fr))`,
   };
 
-  const generate = (curr) => {
+  const generate = useCallback((curr) => {
     if (curr.length === size * size) return curr.slice();
     let i = Math.floor(Math.random() * size);
     let j = Math.floor(Math.random() * size);
@@ -32,7 +32,7 @@ const Board = () => {
     let temp = curr.slice();
     temp.push({ key: key, i: i, j: j, val: 2 });
     return (temp);
-  };
+  }, [size]);
 
   const moveLeft = () => {
     let newGrid = [];
@@ -120,7 +120,7 @@ const Board = () => {
 
   useEffect(() => {
     setGrid(generate([]));
-  }, [size]);
+  }, [size, generate]);
 
 
   const handleKeyDown = (e) => {
