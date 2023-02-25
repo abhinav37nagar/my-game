@@ -24,7 +24,7 @@ code {
   z-index: 0;
 }
 
-.square-backdrop {
+.board-box-backdrop {
   background-color: #0003;
   border-radius: 10px;
   position: relative;
@@ -32,7 +32,7 @@ code {
   height: 0; */
 }
 
-.square {
+.board-box {
   position: absolute;
   top: 0;
   left: 0;
@@ -46,8 +46,4 @@ code {
   top: 0%;
   left: 0%;
   transition: .5s;
-}
-
-.btn {
-  
 }

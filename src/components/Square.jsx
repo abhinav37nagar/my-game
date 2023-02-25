@@ -23,7 +23,7 @@ const Square = ({ val, i, j, size }) => {
   }
 
   return (
-    <div className={`square`} style={style}>
+    <div className={`board-box`} style={style}>
       {val ? val : ''}
     </div>
   );
